@@ -6,37 +6,38 @@
     <title>KKJ MOVESET TSB</title>
     <style>
         body {
-            background-color: #f5f5f5;
+            background-color: #121212;
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
+            color: white;
         }
         .container {
             width: 60%;
             margin: auto;
             margin-top: 30px;
-            background: white;
+            background: #1e1e1e;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
             text-align: left;
         }
         .header h1 {
-            font-size: 20px;
+            font-size: 22px;
             margin: 0;
-            color: #000;
+            color: #fff;
         }
         .meta {
             font-size: 12px;
-            color: #777;
+            color: #bbb;
         }
         .code-container {
-            background: #1e1e1e;
+            background: #2a2a2a;
             color: #d4d4d4;
             font-family: monospace;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 8px;
             font-size: 14px;
             overflow-x: auto;
             position: relative;
@@ -47,20 +48,36 @@
         .buttons {
             margin-top: 10px;
             display: flex;
-            gap: 5px;
+            gap: 10px;
         }
         .btn {
-            background-color: #e0e0e0;
-            color: #333;
+            background-color: #3a3a3a;
+            color: white;
             border: none;
-            padding: 5px 10px;
-            font-size: 12px;
+            padding: 7px 12px;
+            font-size: 13px;
             cursor: pointer;
-            border-radius: 3px;
+            border-radius: 5px;
             text-transform: lowercase;
+            transition: background 0.3s ease;
         }
         .btn:hover {
-            background-color: #d6d6d6;
+            background-color: #555;
+        }
+        /* Copied Notification */
+        .copied-message {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -50px; /* Starts hidden */
+            background: #4caf50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transition: bottom 0.5s ease-in-out, opacity 0.5s ease-in-out;
         }
     </style>
 </head>
@@ -76,23 +93,31 @@
         </div>
         <div class="buttons">
             <button class="btn" onclick="copyText()">copy</button>
-            <button class="btn" onclick="openRaw()">raw</button>
         </div>
     </div>
+
+    <!-- Copied Message -->
+    <div id="copiedMessage" class="copied-message">Copied!</div>
 
     <script>
         function copyText() {
             const text = document.getElementById("pasteContent").innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert("Copied to clipboard!");
+                showCopiedMessage();
             });
         }
 
-        function openRaw() {
-            const text = document.getElementById("pasteContent").innerText;
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            window.open(url, "_blank");
+        function showCopiedMessage() {
+            const message = document.getElementById("copiedMessage");
+            message.style.bottom = "30px"; // Slide up
+            message.style.opacity = "1"; // Show
+
+            setTimeout(() => {
+                message.style.opacity = "0"; // Fade out
+                setTimeout(() => {
+                    message.style.bottom = "-50px"; // Move back down after fading
+                }, 500);
+            }, 3000);
         }
     </script>
 
